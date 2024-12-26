@@ -2,7 +2,11 @@ import { useParams } from 'react-router-dom';
 import Navigation from '../Home/Navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
-const videoData = {
+type VideoData = {
+  [key: string]: string[];
+};
+
+const videoData: VideoData = {
   cadastro: [
     'https://drive.google.com/file/d/1pfZ87b46ryxsOQXUGFfPP0TZ6TRdvaJS/view',
   ],
@@ -21,24 +25,25 @@ const videoData = {
 };
 
 export default function Guides() {
-  const { guideName } = useParams();
+  const { guideName = '' } = useParams<{ guideName: string }>();
   const { signOut } = useAuth();
 
   const videos = videoData[guideName] || [];
+  const formattedGuideName = guideName.charAt(0).toUpperCase() + guideName.slice(1);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation onSignOut={signOut} />
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">
-          {guideName?.charAt(0).toUpperCase() + guideName?.slice(1)} Guide
+          {formattedGuideName} Guide
         </h1>
         <div className="space-y-4">
           {videos.length > 0 ? (
-            videos.map((video, index) => (
+            videos.map((video: string, index: number) => (
               <div key={index} className="aspect-w-16 aspect-h-9">
                 <iframe
-                  src={video.replace('/view', '/preview')} // Ajuste para exibir vídeos do Google Drive
+                  src={video.replace('/view', '/preview')}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

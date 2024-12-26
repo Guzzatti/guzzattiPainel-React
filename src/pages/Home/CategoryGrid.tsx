@@ -1,6 +1,17 @@
 import { Link } from 'react-router-dom';
 
-const categories = [
+interface CategoryItem {
+  name: string;
+  url?: string;
+  path?: string;
+}
+
+interface Category {
+  title: string;
+  items: CategoryItem[];
+}
+
+const categories: Category[] = [
   {
     title: 'Login',
     items: [
@@ -32,7 +43,7 @@ const categories = [
       { name: 'Excel Cadastro', url: 'https://docs.google.com/spreadsheets/d/1awIfAf0--39x7wdGuSQwYUQ9826K_C9SVhtUkMnYG8c/edit?gid=0#gid=0' },
     ],
   },
-    {
+  {
     title: 'Guias',
     items: [
       { name: 'Guia Cadastro', path: '/guides/cadastro' },
@@ -42,7 +53,6 @@ const categories = [
     ],
   },
 ];
-
 
 export default function CategoryGrid() {
   return (
